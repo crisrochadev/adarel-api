@@ -16,6 +16,9 @@ API backend completa para CMS simples com isolamento por tenant, autenticação 
   /handlers
   /middlewares
   /routes
+/database/migrations
+/docs
+/scripts
 /pkg/
 ```
 
@@ -24,6 +27,9 @@ API backend completa para CMS simples com isolamento por tenant, autenticação 
 - Go 1.22+
 - PostgreSQL (local via Docker Compose ou externo)
 - Variáveis de ambiente configuradas
+
+- `psql` instalado para executar migrations SQL
+
 
 ## Variáveis
 
@@ -34,6 +40,45 @@ API backend completa para CMS simples com isolamento por tenant, autenticação 
 - `DB_NAME`
 - `JWT_SECRET`
 - `PORT` (opcional, padrão 8080)
+
+## Migrations (criação do banco + tabelas)
+
+As migrations SQL estão em `database/migrations`:
+
+- `000001_create_database.up.sql`
+- `000002_create_tables.up.sql`
+
+Para executar tudo:
+
+```bash
+cp .env.example .env
+source .env
+
+# sobe somente o PostgreSQL local na porta 5435
+docker compose up -d
+
+# executa migrations (cria database + tabelas)
+./scripts/migrate.sh up
+```
+
+Para rollback:
+
+```bash
+./scripts/migrate.sh down
+```
+
+## Rodando a API localmente
+
+```bash
+go run ./cmd/api
+```
+
+## Swagger
+
+Com a API em execução:
+
+- UI: `http://localhost:8080/swagger`
+- OpenAPI JSON: `http://localhost:8080/swagger/openapi.json`
 
 ## Rotas
 
@@ -62,15 +107,3 @@ API backend completa para CMS simples com isolamento por tenant, autenticação 
 - CORS configurado
 - Headers de segurança
 - Mensagens de erro genéricas
-
-## Docker
-
-```bash
-# sobe somente o PostgreSQL local na porta 5435
-docker compose up -d
-
-# rode a API localmente
-go run ./cmd/api
-```
-
-> O `docker-compose.yml` foi configurado para subir apenas o PostgreSQL.

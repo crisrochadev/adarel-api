@@ -1,0 +1,93 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "CMS Multi-tenant API",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de conteúdo multi-tenant"
+  },
+  "servers": [{ "url": "http://localhost:8080" }],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Registrar usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "password", "tenant_name"],
+                "properties": {
+                  "name": {"type": "string"},
+                  "email": {"type": "string"},
+                  "password": {"type": "string"},
+                  "tenant_name": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {"201": {"description": "Created"}}
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "responses": {"200": {"description": "OK"}}
+      }
+    },
+    "/content": {
+      "get": {
+        "tags": ["Content"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Listar ou buscar por page",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "string"}}
+        ],
+        "responses": {"200": {"description": "OK"}}
+      },
+      "post": {
+        "tags": ["Content"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Criar/Atualizar conteúdo",
+        "responses": {"200": {"description": "OK"}}
+      },
+      "put": {
+        "tags": ["Content"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Criar/Atualizar conteúdo",
+        "responses": {"200": {"description": "OK"}}
+      }
+    },
+    "/content/{id}": {
+      "delete": {
+        "tags": ["Content"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Deletar conteúdo",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {"200": {"description": "OK"}}
+      }
+    },
+    "/upload": {
+      "post": {
+        "tags": ["Upload"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Upload de imagem",
+        "responses": {"200": {"description": "OK"}}
+      }
+    }
+  }
+}

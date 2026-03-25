@@ -29,8 +29,9 @@ func main() {
 	authHandler := handlers.NewAuthHandler(authService)
 	contentHandler := handlers.NewContentHandler(contentService)
 	uploadHandler := handlers.NewUploadHandler(uploadService)
+	swaggerHandler := handlers.NewSwaggerHandler()
 
-	r := routes.SetupRouter(authHandler, contentHandler, uploadHandler, authService)
+	r := routes.SetupRouter(authHandler, contentHandler, uploadHandler, swaggerHandler, authService)
 
 	if err := r.Run(":" + cfg.Port); err != nil {
 		log.Fatalf("server startup failed")

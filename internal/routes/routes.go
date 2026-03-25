@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(authHandler *handlers.AuthHandler, contentHandler *handlers.ContentHandler, uploadHandler *handlers.UploadHandler, authService services.AuthService) *gin.Engine {
+func SetupRouter(authHandler *handlers.AuthHandler, contentHandler *handlers.ContentHandler, uploadHandler *handlers.UploadHandler, swaggerHandler *handlers.SwaggerHandler, authService services.AuthService) *gin.Engine {
 	r := gin.New()
 	r.Use(middlewares.RecoveryMiddleware())
 	r.Use(middlewares.LoggingMiddleware())
@@ -28,6 +28,8 @@ func SetupRouter(authHandler *handlers.AuthHandler, contentHandler *handlers.Con
 	}))
 
 	r.Static("/uploads", "./uploads")
+	r.StaticFile("/swagger/openapi.json", "./docs/openapi.json")
+	r.GET("/swagger", swaggerHandler.UI)
 
 	auth := r.Group("/auth")
 	{
