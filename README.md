@@ -1,3 +1,4 @@
+
 # CMS API Multi-tenant (Go)
 
 API backend completa para CMS simples com isolamento por tenant, autenticação JWT, CRUD de conteúdo com `jsonb` e upload de imagens.
