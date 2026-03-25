@@ -1,3 +1,4 @@
+
 # CMS API Multi-tenant (Go)
 
 API backend completa para CMS simples com isolamento por tenant, autenticação JWT, CRUD de conteúdo com `jsonb` e upload de imagens.
@@ -26,7 +27,9 @@ API backend completa para CMS simples com isolamento por tenant, autenticação 
 - Go 1.22+
 - PostgreSQL (local via Docker Compose ou externo)
 - Variáveis de ambiente configuradas
+
 - `psql` instalado para executar migrations SQL
+
 
 ## Variáveis
 
